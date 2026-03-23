@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a real-time Steady-State Visually Evoked Potential (SSVEP) Brain-Computer Interface (BCI) using an ESP32 microcontroller. It was developed as part of a thesis and demonstrates how EEG signals can be processed and classified in real time on embedded hardware.
+This project implements a real-time Steady-State Visually Evoked Potential (SSVEP) Brain-Computer Interface (BCI) using an ESP32 microcontroller and a custom PCB for analog interface. It was developed as part of a thesis and demonstrates how EEG signals can be processed and classified in real time on embedded hardware.
 
 The system detects brain responses to visual stimuli at specific frequencies and converts them into control decisions.
 
@@ -12,27 +12,36 @@ The system detects brain responses to visual stimuli at specific frequencies and
 
 The signal processing pipeline consists of the following stages:
 
-1. **Signal Acquisition**
+1. **Analog Interface**
+   
+   * Instrumentation Amplifier
+   * Low Pass Filter, Sallen Key, 2 order
+   * AC amplifier
+   * Notch 50 Hz filter
+   * Final AC Amplifier
+   * Right Leg Driver circuit
+     
+3. **Signal Acquisition**
 
    * ADC sampling at 1 kHz
    * Hardware timer interrupt for precise timing
 
-2. **Preprocessing**
+4. **Preprocessing**
 
    * DC offset removal (IIR high-pass filter)
    * FIR band-pass filtering
 
-3. **Feature Extraction**
+5. **Feature Extraction**
 
    * Goertzel algorithm for frequency detection
    * Target frequencies: 10 Hz, 12 Hz, 20 Hz, 24 Hz
 
-4. **Decision Making**
+6. **Decision Making**
 
    * Argmax power comparison
    * Median Absolute Deviation (MAD)-based classifier
 
-5. **Output**
+7. **Output**
 
    * Real-time signal visualization via Serial Plotter
    * Classification results (Argmax & MAD)
@@ -41,6 +50,7 @@ The signal processing pipeline consists of the following stages:
 
 ## Features
 
+* Analog interface and Acquition System
 * Real-time processing on ESP32
 * 1 kHz sampling using hardware timer interrupts
 * Efficient fixed-point DSP implementation
